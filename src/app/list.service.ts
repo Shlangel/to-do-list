@@ -30,6 +30,12 @@ export class ListService {
     return of('ok');
   }
 
+  check(id: number): Observable<string> {
+    const item = this.items.find(item => item.id === id);
+    item.checked = !item.checked;
+    return of('ok');
+  }
+
   genId(items: ListItem[]): number {
     return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
   }

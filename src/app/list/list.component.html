@@ -1,13 +1,13 @@
 <div class="header">
     <h2>To Do List</h2>
     <input type="text" [formControl]="action" placeholder="To do...">
-    <span (click)=addItem() class="addBtn" [disabled]>Add</span>
+    <span (click)=addItem($event) class="addBtn" [disabled]>Add</span>
   </div>
 
   <ul>
     <div *ngFor="let item of items">
-        <li [ngClass]="{checked:item.checked}">{{item.action}} 
-            <button class="close" (click)="removeItem(item.id)">x</button>
+        <li (click)="check(item.id)" [ngClass]="{checked:item.checked}">{{item.action}} 
+            <button class="close" (click)="removeItem(item.id, $event)">x</button>
         </li>
     </div>
   </ul>

@@ -30,9 +30,16 @@ export class ListComponent implements OnInit {
     this.action.reset();
   }
 
-  removeItem(id: number): void {
+  removeItem(id: number, event): void {
     this.listService.removeItem(id)
       .subscribe(() => this.getItems());
+      event.stopPropagation();
+  }
+
+  check(id: number): void {
+    this.listService.check(id)
+      .subscribe();
+    event.stopPropagation();
   }
 
 }
