@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ListItem } from './list-item';
 import { Observable, of } from 'rxjs';
+import { Validators, FormControl } from '@angular/forms';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +10,21 @@ import { Observable, of } from 'rxjs';
 export class ListService {
 
   items: ListItem[]  = [
-    {id: 1, checked: false, action: 'do this again'},
   ];
 
   getItems(): Observable<ListItem[]> {
     return of(this.items);
   }
 
-  addItem(action): Observable<ListItem> {
+  addItem(action: string, description): Observable<ListItem> {
     const item = {
       id: this.genId(this.items),
       action: action,
       checked: false
     };
     this.items.push(item);
+    description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
+    console.log(description);
     return of(item);
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../list.service';
 import { ListItem } from '../list-item';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -12,6 +12,7 @@ export class ListComponent implements OnInit {
 
   items: ListItem[] = [];
   action = new FormControl(null, Validators.required);
+  description = new FormGroup({});
 
   constructor(private listService: ListService) { }
 
@@ -19,14 +20,16 @@ export class ListComponent implements OnInit {
     this.getItems();
   }
 
-  getItems(): void {
+  getItems(checked?: boolean, unchecked?: boolean): void {
     this.listService.getItems()
       .subscribe(items => this.items = items);
   }
 
   addItem(): void {
-    this.listService.addItem(this.action.value)
-      .subscribe(() => this.getItems());
+    this.listService.addItem(this.action.value, this.description)
+      .subscribe(() => {
+        this.getItems();
+      });
     this.action.reset();
   }
 
@@ -41,5 +44,9 @@ export class ListComponent implements OnInit {
       .subscribe();
     event.stopPropagation();
   }
+
+  // edit(id: number): void {
+  //   this.listService.edit(id, this.description);
+  // }
 
 }

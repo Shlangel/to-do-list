@@ -23,26 +23,25 @@
     -ms-user-select: none;
     user-select: none;
   }
+
+  li input {
+    margin-top: -7px;
+  }
   
   /* Set all odd list items to a different color (zebra-stripes) */
-  ul li:nth-child(odd) {
+  ul li:nth-child(odd), li:nth-child(odd) input {
     background: #f9f9f9;
   }
   
-  /* Darker background-color on hover */
-  ul li:hover {
-    background: #ddd;
-  }
-  
   /* When clicked on, add a background color and strike out text */
-  ul li.checked {
+  ul li.checked, li.checked input {
     background: #888;
     color: #fff;
     text-decoration: line-through;
   }
   
   /* Add a "checked" mark when clicked on */
-  ul li.checked::before {
+  ul li.checked::before, li.checked::before input {
     content: '';
     position: absolute;
     border-color: #fff;
@@ -96,7 +95,7 @@
   
   /* Style the "Add" button */
   .addBtn {
-    padding: 10px;
+    padding: 8px 10px 8px 10px;
     width: 25%;
     background: #d9d9d9;
     color: #555;
