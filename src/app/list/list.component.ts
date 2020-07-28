@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   items: ListItem[] = [];
   action = new FormControl(null, Validators.required);
   description = new FormGroup({});
+  checked: boolean;
 
   constructor(private listService: ListService) { }
 
@@ -20,23 +21,22 @@ export class ListComponent implements OnInit {
     this.getItems();
   }
 
-  getItems(checked?: boolean, unchecked?: boolean): void {
-    this.listService.getItems(checked, unchecked)
+  getItems(checked?): void {
+    this.listService.getItems(this.checked)
       .subscribe(items => this.items = items);
   }
 
-  addItem(event): void {
+  addItem(): void {
     this.listService.addItem(this.action.value, this.description)
       .subscribe(() => {
-        this.getItems();
+        this.getItems(this.checked);
       });
     this.action.reset();
-    event.stopPropagation();
   }
 
   removeItem(id: number, event): void {
     this.listService.removeItem(id)
-      .subscribe(() => this.getItems());
+      .subscribe(() => this.getItems(this.checked));
       event.stopPropagation();
   }
 
@@ -48,8 +48,12 @@ export class ListComponent implements OnInit {
 
   edit(id: number, event): void {
     this.listService.edit(id, this.description)
-      .subscribe(() => this.getItems());
+      .subscribe(() => this.getItems(this.checked));
     event.stopPropagation();
   }
-    
+
+  filter(checked): void {
+    this.checked = checked;
+    this.getItems(checked);
+  }
 }

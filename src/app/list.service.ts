@@ -12,7 +12,7 @@ export class ListService {
   items: ListItem[]  = [
   ];
 
-  getItems(checked?: boolean, unchecked?: boolean): Observable<ListItem[]> {
+  getItems(checked?: boolean): Observable<ListItem[]> {
     if (checked) {
       let sortedItems = this.items.filter(item => item.checked === true);
       return of(sortedItems);

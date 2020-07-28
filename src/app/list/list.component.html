@@ -1,19 +1,20 @@
 <div class="header">
     <h2>To Do List</h2>
     <input type="text" [formControl]="action" placeholder="To do...">
-    <button (click)=addItem($event) class="addBtn" [disabled]="action.invalid">Add</button>
+    <button (click)=addItem() class="addBtn" [disabled]="action.invalid">Add</button>
   </div>
 
   <div class="sort">
-      <button (click)="getItems()">All</button>
-      <button (click)="getItems(checked = true)">Done</button>
-      <button (click)="getItems(checked = false)">To Do</button>
+      <button (click)="filter(checked = undefined)">All</button>
+      <button (click)="filter(checked = true)">Done</button>
+      <button (click)="filter(checked = false)">To Do</button>
   </div>
 
 <ul [formGroup]="description">
     <div *ngFor="let item of items">
-        <li (click)="check(item.id)" [ngClass]="{checked:item.checked}">
+        <li [ngClass]="{checked:item.checked}">
             <input type="text" formControlName={{item.id}}>
+            <button class="check" (click)="check(item.id, $event)"></button>
             <button class="edit" (click)="edit(item.id, $event)">Edit</button>
             <button class="close" (click)="removeItem(item.id, $event)">x</button>
         </li>

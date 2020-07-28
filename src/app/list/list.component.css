@@ -10,7 +10,6 @@
   
   /* Style the list items */
   ul li {
-    cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;
     background: #eee;
@@ -128,4 +127,17 @@
 
   .sort button:hover {
     background-color: #bbb;
+  }
+
+  .check {
+    padding: 8px;
+    border-radius: 10px;
+    position: absolute;
+    margin-left: -73%;
+    cursor: pointer;
+  }
+
+  .check:hover {
+    background-color: #11da33;
+    color: white;
   }
