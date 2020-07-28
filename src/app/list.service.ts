@@ -55,4 +55,20 @@ export class ListService {
   genId(items: ListItem[]): number {
     return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
   }
+
+  pageChanging(limit: number, offset: number, ): Observable<ListItem[]> {
+    return of(this.items.slice(offset, offset + limit));
+  }
+
+  // pageChanging(limit: number, offset: number, checked?: boolean): Observable<ListItem[]> {
+  //   if (checked) {
+  //     let sortedItems = this.items.filter(item => item.checked === true).slice(offset, offset + limit);
+  //     return of(sortedItems);
+  //   }
+  //   if (checked === false) {
+  //     let sortedItems = this.items.filter(item => item.checked === false).slice(offset, offset + limit);
+  //     return of(sortedItems);
+  //   }
+  //   return of(this.items.slice(offset, offset + limit));
+  // }
 }

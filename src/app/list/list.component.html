@@ -20,3 +20,9 @@
         </li>
     </div>
 </ul>
+
+<mat-paginator [length]="length"
+              [pageSize]="pageSize"
+              [pageIndex]="currentPage"
+              (page)="pageChanging($event)">
+</mat-paginator>

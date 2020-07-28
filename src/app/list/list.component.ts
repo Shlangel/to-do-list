@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+
 import { ListService } from '../list.service';
 import { ListItem } from '../list-item';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +16,10 @@ export class ListComponent implements OnInit {
   action = new FormControl(null, Validators.required);
   description = new FormGroup({});
   checked: boolean;
+  length: number;
+  pageEvent: PageEvent;
+  currentPage: number;
+  pageSize: number = 3;
 
   constructor(private listService: ListService) { }
 
@@ -23,7 +29,10 @@ export class ListComponent implements OnInit {
 
   getItems(checked?): void {
     this.listService.getItems(this.checked)
-      .subscribe(items => this.items = items);
+      .subscribe(response => {
+        this.items = response;
+        this.length = response.length;
+      });
   }
 
   addItem(): void {
@@ -55,5 +64,11 @@ export class ListComponent implements OnInit {
   filter(checked): void {
     this.checked = checked;
     this.getItems(checked);
+  }
+
+  pageChanging(event): void {
+    this.currentPage = event.pageIndex;
+    this.listService.pageChanging(event.pageSize, event.pageSize * event.pageIndex)
+      .subscribe(response => this.items = response);
   }
 }
