@@ -21,16 +21,17 @@ export class ListComponent implements OnInit {
   }
 
   getItems(checked?: boolean, unchecked?: boolean): void {
-    this.listService.getItems()
+    this.listService.getItems(checked, unchecked)
       .subscribe(items => this.items = items);
   }
 
-  addItem(): void {
+  addItem(event): void {
     this.listService.addItem(this.action.value, this.description)
       .subscribe(() => {
         this.getItems();
       });
     this.action.reset();
+    event.stopPropagation();
   }
 
   removeItem(id: number, event): void {
@@ -45,8 +46,10 @@ export class ListComponent implements OnInit {
     event.stopPropagation();
   }
 
-  // edit(id: number): void {
-  //   this.listService.edit(id, this.description);
-  // }
-
+  edit(id: number, event): void {
+    this.listService.edit(id, this.description)
+      .subscribe(() => this.getItems());
+    event.stopPropagation();
+  }
+    
 }

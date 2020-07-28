@@ -4,17 +4,17 @@
     <button (click)=addItem($event) class="addBtn" [disabled]="action.invalid">Add</button>
   </div>
 
-  <!-- <div class="sort">
+  <div class="sort">
       <button (click)="getItems()">All</button>
-      <button (click)="getItems()">Done</button>
-      <button (click)="getItems()">To Do</button>
-  </div> -->
+      <button (click)="getItems(checked = true)">Done</button>
+      <button (click)="getItems(checked = false)">To Do</button>
+  </div>
 
 <ul [formGroup]="description">
     <div *ngFor="let item of items">
         <li (click)="check(item.id)" [ngClass]="{checked:item.checked}">
             <input type="text" formControlName={{item.id}}>
-            <button class="edit" (click)="edit(item.id)">Edit</button>
+            <button class="edit" (click)="edit(item.id, $event)">Edit</button>
             <button class="close" (click)="removeItem(item.id, $event)">x</button>
         </li>
     </div>

@@ -12,7 +12,15 @@ export class ListService {
   items: ListItem[]  = [
   ];
 
-  getItems(): Observable<ListItem[]> {
+  getItems(checked?: boolean, unchecked?: boolean): Observable<ListItem[]> {
+    if (checked) {
+      let sortedItems = this.items.filter(item => item.checked === true);
+      return of(sortedItems);
+    }
+    if (checked === false) {
+      let sortedItems = this.items.filter(item => item.checked === false);
+      return of(sortedItems);
+    }
     return of(this.items);
   }
 
@@ -24,7 +32,6 @@ export class ListService {
     };
     this.items.push(item);
     description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
-    console.log(description);
     return of(item);
   }
 
@@ -36,6 +43,12 @@ export class ListService {
   check(id: number): Observable<string> {
     const item = this.items.find(item => item.id === id);
     item.checked = !item.checked;
+    return of('ok');
+  }
+
+  edit(id: number, description): Observable<string> {
+    const formControl = description.get(`${id}`);
+    formControl.disabled? formControl.enable() : formControl.disable();
     return of('ok');
   }
 
