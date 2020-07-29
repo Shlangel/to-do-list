@@ -12,16 +12,18 @@ export class ListService {
   items: ListItem[]  = [
   ];
 
-  getItems(checked?: boolean): Observable<ListItem[]> {
+  getItems(checked?: boolean, limit?: number, offset?: number): Observable<any> {
     if (checked) {
-      let sortedItems = this.items.filter(item => item.checked === true);
-      return of(sortedItems);
+      let sortedItems = this.items.filter(item => item.checked === true)
+      let slicedItems = sortedItems.slice(offset, offset + limit);
+      return of({items: slicedItems, length: sortedItems.length});
     }
     if (checked === false) {
-      let sortedItems = this.items.filter(item => item.checked === false);
-      return of(sortedItems);
+      let sortedItems = this.items.filter(item => item.checked === false)
+      let slicedItems = sortedItems.slice(offset, offset + limit);
+      return of({items: slicedItems, length: sortedItems.length});
     }
-    return of(this.items);
+    return of({items: this.items.slice(offset, offset + limit), length: this.items.length});
   }
 
   addItem(action: string, description): Observable<ListItem> {
