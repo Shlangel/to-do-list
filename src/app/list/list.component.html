@@ -14,7 +14,7 @@
     <div *ngFor="let item of items">
         <li [ngClass]="{checked:item.checked}">
             <input type="text" formControlName={{item.id}}>
-            <button class="check" (click)="check(item.id, $event)"></button>
+            <button class="check" (click)="check(item.id, $event)" [ngClass]="{checked:item.checked}"></button>
             <button class="edit" (click)="edit(item.id, $event)">Edit</button>
             <button class="close" (click)="removeItem(item.id, $event)">x</button>
         </li>

@@ -15,6 +15,7 @@ export class ListComponent implements OnInit {
 
   action = new FormControl(null, Validators.required);
   description = new FormGroup({});
+  prevChecked: boolean;
   checked: boolean;
   pageEvent: PageEvent;
   currentPage: number = 0;
@@ -36,7 +37,7 @@ export class ListComponent implements OnInit {
     this.event = event || this.event;
 
     this.currentPage = this.event ? this.event.pageIndex : this.currentPage;
-    console.log(this.currentPage);
+    this.currentPage = this.prevChecked == this.checked ? this.currentPage : 0;
 
     this.listService.getItems(this.checked, this.pageSize, this.pageSize * this.currentPage)
       .subscribe(response => {
@@ -77,7 +78,12 @@ export class ListComponent implements OnInit {
   }
 
   filter(checked): void {
+    this.prevChecked = this.checked;
+    console.log(this.prevChecked);
+    console.log(this.checked);
     this.checked = checked;
+    console.log(this.prevChecked);
+    console.log(this.checked);
     this.getItems(null, checked);
   }
 

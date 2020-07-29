@@ -130,6 +130,10 @@
     color: white;
   }
 
+  .check.checked {
+    background-color: #11da33;
+  }
+
   mat-paginator {
   position: fixed;
   bottom: 0px;
