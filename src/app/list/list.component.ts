@@ -42,17 +42,15 @@ export class ListComponent implements OnInit {
       .subscribe(response => {
         this.length = response.length;
         this.items = response.items;
-        console.log(this.currentPage);
         if (this.items.length < 1 && this.currentPage !== 0) {
           
           this.currentPage -= 1;
           this.event.pageIndex = this.currentPage;
           this.listService.getItems(this.checked, this.pageSize, this.pageSize * this.currentPage)
             .subscribe(response => {
-            this.length = response.length;
-            this.items = response.items;
-            console.log(this.currentPage);
-        })
+              this.length = response.length;
+              this.items = response.items;
+            })
         }}
         );
   }
@@ -82,8 +80,8 @@ export class ListComponent implements OnInit {
     event.stopPropagation();
   }
 
-  edit(id: number, event): void {
-    this.listService.edit(id, this.description)
+  edit(action, event): void {
+    this.listService.edit(action, this.description)
       .subscribe(() => this.getItems(null));
     event.stopPropagation();
   }
