@@ -5,9 +5,9 @@
   </div>
 
   <div class="sort">
-      <button (click)="filter(checked = undefined)">All</button>
-      <button (click)="filter(checked = true)">Done</button>
-      <button (click)="filter(checked = false)">To Do</button>
+      <button (click)="filter(undefined)">All</button>
+      <button (click)="filter(true)">Done</button>
+      <button (click)="filter(false)">To Do</button>
   </div>
 
 <ul [formGroup]="description">

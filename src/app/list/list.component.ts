@@ -32,18 +32,29 @@ export class ListComponent implements OnInit {
 
   }
 
-  getItems( event?, checked?: boolean): void {
+  getItems(event?, cp?: number): void {
 
     this.event = event || this.event;
 
-    this.currentPage = this.event ? this.event.pageIndex : this.currentPage;
-    this.currentPage = this.prevChecked == this.checked ? this.currentPage : 0;
+    this.currentPage = cp === 0 ? cp : this.event ? this.event.pageIndex : this.currentPage;
 
     this.listService.getItems(this.checked, this.pageSize, this.pageSize * this.currentPage)
       .subscribe(response => {
         this.length = response.length;
         this.items = response.items;
-      });
+        console.log(this.currentPage);
+        if (this.items.length < 1 && this.currentPage !== 0) {
+          
+          this.currentPage -= 1;
+          this.event.pageIndex = this.currentPage;
+          this.listService.getItems(this.checked, this.pageSize, this.pageSize * this.currentPage)
+            .subscribe(response => {
+            this.length = response.length;
+            this.items = response.items;
+            console.log(this.currentPage);
+        })
+        }}
+        );
   }
 
   addItem(): void {
@@ -78,37 +89,12 @@ export class ListComponent implements OnInit {
   }
 
   filter(checked): void {
-    this.prevChecked = this.checked;
-    console.log(this.prevChecked);
-    console.log(this.checked);
-    this.checked = checked;
-    console.log(this.prevChecked);
-    console.log(this.checked);
-    this.getItems(null, checked);
-  }
+      this.prevChecked = this.checked;
+      this.checked = checked;
+      if (this.prevChecked !== this.checked) {
+        let cp = 0
+        this.getItems(null, cp); 
+      }
+    }
 
-
-  // pageChanging(event): void {
-  //   this.currentPage = event.pageIndex;
-  //   this.listService.pageChanging(event.pageSize, event.pageSize * event.pageIndex)
-  //     .subscribe(response => this.items = response);
-  //     console.log(event);
-  // }
-
-  // getItems( event?, checked?: boolean): void {
-  //   this.currentPage = this.checked == checked ? this.currentPage : 0;
-  //   this.checked = checked;
-
-  //   this.event = event || this.event;
-
-  //   this.currentPage = this.event ? this.event.pageIndex : this.currentPage;
-
-  //   console.log(this.currentPage)
-  //   this.listService.getItems(this.checked, this.pageSize, this.pageSize * this.currentPage)
-  //     .subscribe(response => {
-  //       this.length = response.length;
-  //       this.items = response.items;
-  //     });
-  // }
-  
 }
