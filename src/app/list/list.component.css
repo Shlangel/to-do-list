@@ -3,12 +3,15 @@
   }
   
   ul {
-    margin-top: 10px;
     padding: 0;
+    margin-top: 30px;
+    margin-left: 9%;
+    margin-right: 9%;
   }
   
   ul li {
     position: relative;
+    margin-top: 15px;
     padding: 12px 8px 12px 40px;
     background: #eee;
     font-size: 18px;
@@ -17,6 +20,9 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    list-style-type: none;
+    border-radius: 10px;
+    border: 3px;
   }
 
   li input {
@@ -24,7 +30,7 @@
   }
   
   ul li:nth-child(odd), li:nth-child(odd) input {
-    background: #f9f9f9;
+    background: #c4e4fb;
   }
   
   ul li.checked, li.checked input {
@@ -59,16 +65,24 @@
   }
   
   .header {
-    background-color: #f44336;
+    background-color: #36a5f4;
+    margin-right: 5%;
+    margin-left: 5%;
     padding: 30px 40px;
     color: white;
     text-align: center;
+    border-radius: 10px;
   }
   
   .header:after {
     content: "";
     display: table;
     clear: both;
+  }
+
+  .header input {
+    border-radius: 10px;
+    background-color: white;
   }
   
   input {
@@ -91,30 +105,42 @@
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-    border-radius: 0;
+    border-radius: 10px;
+    background-color: white;
+    border-color: #36a5f4;
   }
   
   .addBtn:hover {
-    background-color: #bbb;
+    background-color: #9cd6ff;
   }
 
   .sort {
-    margin-left: 1%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    max-width: 92%;
+    margin: auto;
+    margin-top: 40px;
   }
+
   .sort button {
     padding: 8px 10px 8px 10px;
-    width: 33%;
-    background: #d9d9d9;
+    width: 30%;
+    margin-left: 21px;
+    background: white;
     color: #555;
     text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-    border-radius: 0;
+    border-radius: 10px;
+    border-color: #36a5f4;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .sort button:hover {
-    background-color: #bbb;
+    background-color: #9cd6ff;
   }
 
   .check {
@@ -135,6 +161,6 @@
   }
 
   mat-paginator {
-  position: fixed;
-  bottom: 0px;
+    justify-content: center;
+    display: flex;
   }

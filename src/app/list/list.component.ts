@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
   checked: boolean;
   pageEvent: PageEvent;
   currentPage: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 5;
   length: number;
   event;
 
@@ -29,7 +29,6 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItems();
-
   }
 
   getItems(event?, cp?: number): void {
@@ -51,8 +50,8 @@ export class ListComponent implements OnInit {
               this.length = response.length;
               this.items = response.items;
             })
-        }}
-        );
+          }}
+      );
   }
 
   addItem(): void {
