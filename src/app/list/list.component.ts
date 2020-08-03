@@ -18,6 +18,7 @@ export class ListComponent implements OnInit {
   description = new FormGroup({});
   header = new FormGroup({action: new FormControl()})
   prevChecked: boolean;
+  editable: boolean = false;
   checked: boolean;
   pageEvent: PageEvent;
   currentPage: number = 0;
@@ -93,6 +94,7 @@ export class ListComponent implements OnInit {
         this.listInput.nativeElement.focus();
       });
     event.stopPropagation();
+    this.editable = !this.editable;
   }
 
   filter(checked): void {

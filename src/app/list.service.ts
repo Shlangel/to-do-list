@@ -49,8 +49,8 @@ export class ListService {
   }
 
   edit(id: number, description): Observable<string> {
-    const formControl = description.get(`${id}`);
-    formControl.disabled? formControl.enable() : formControl.disable();
+    let formControl = description.get(`${id}`); 
+    formControl.disabled ? formControl.enable() : formControl.disable();
     return of('ok');
   }
 

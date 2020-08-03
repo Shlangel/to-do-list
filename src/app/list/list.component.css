@@ -35,9 +35,8 @@
   }
   
   ul li.checked , li.checked input  {
-    background: #888;
-    color: #fff;
     text-decoration: line-through;
+        font-weight: bold;
   }
   
   ul li.checked::before, li.checked::before input {
@@ -149,9 +148,18 @@
     background-color: #9cd6ff;
   }
 
-  .edit {
+  .no-edit {
     padding: 9px 14px;
     background-color: #36a5f4;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .edit {
+    background-color: black;
+    padding: 9px 14px;
     color: white;
     border: 0;
     border-radius: 10px;
@@ -174,12 +182,12 @@
   }
 
   .check:hover {
-    background-color: #11da33;
+    background-color: #36a5f4;
     color: white;
   }
 
   .check.checked {
-    background-color: #11da33;
+    background-color: #0176ca;
     color: white;
   }
 
