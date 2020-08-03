@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { ListService } from '../list.service';
@@ -10,6 +10,9 @@ import { ListItem } from '../list-item';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
+  @ViewChild("listInput") listInput: ElementRef;
+  @ViewChild("mainInput") mainInput: ElementRef;
+  
   
   items: ListItem[] = [];
 
@@ -32,6 +35,8 @@ export class ListComponent implements OnInit {
   }
 
   getItems(event?, cp?: number): void {
+
+    this.mainInput.nativeElement.focus();
 
     this.event = event || this.event;
 
@@ -81,7 +86,10 @@ export class ListComponent implements OnInit {
 
   edit(action, event): void {
     this.listService.edit(action, this.description)
-      .subscribe(() => this.getItems(null));
+      .subscribe(() => {
+        this.getItems(null); 
+        this.listInput.nativeElement.focus();
+      });
     event.stopPropagation();
   }
 
