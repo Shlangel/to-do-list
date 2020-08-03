@@ -33,7 +33,7 @@ export class ListService {
       checked: false
     };
     this.items.unshift(item);
-    description.addControl(`${item.action}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
+    description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
     return of(item);
   }
 
@@ -48,8 +48,8 @@ export class ListService {
     return of('ok');
   }
 
-  edit(action, description): Observable<string> {
-    const formControl = description.get(`${action}`);
+  edit(id: number, description): Observable<string> {
+    const formControl = description.get(`${id}`);
     formControl.disabled? formControl.enable() : formControl.disable();
     return of('ok');
   }

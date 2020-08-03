@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    outline: none;
   }
   
   ul {
@@ -13,7 +14,6 @@
     position: relative;
     margin-top: 15px;
     padding: 12px 8px 12px 40px;
-    background: #eee;
     font-size: 18px;
     transition: 0.2s;
     -webkit-user-select: none;
@@ -23,17 +23,18 @@
     list-style-type: none;
     border-radius: 10px;
     border: 3px;
+
   }
 
   li input {
-    margin-top: -7px;
+    margin-top: -3px;
   }
   
   ul li:nth-child(odd), li:nth-child(odd) input {
     background: #c4e4fb;
   }
   
-  ul li.checked, li.checked input {
+  ul li.checked , li.checked input  {
     background: #888;
     color: #fff;
     text-decoration: line-through;
@@ -53,10 +54,14 @@
   }
   
   .close {
+    background-color: white;
     position: absolute;
     right: 0;
     top: 0;
-    padding: 12px 16px 12px 16px;
+    padding: 6px 11px 7px 11px;
+    border-radius: 25px;
+    border: 0;
+    margin: 14.4px;
   }
   
   .close:hover {
@@ -94,23 +99,24 @@
     float: left;
     font-size: 16px;
   }
+
+  form input {
+    max-width: 70%;
+  }
   
   .addBtn {
-    padding: 8px 10px 8px 10px;
+    margin-left: 52px;
+    padding: 10px 10px 10px 10px;
     width: 25%;
     background: #d9d9d9;
-    color: #555;
     float: left;
     text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-    border-radius: 10px;
-    background-color: white;
-    border-color: #36a5f4;
   }
   
-  .addBtn:hover {
+  input.addBtn:hover {
     background-color: #9cd6ff;
   }
 
@@ -143,12 +149,28 @@
     background-color: #9cd6ff;
   }
 
-  .check {
-    padding: 8px;
+  .edit {
+    padding: 9px 14px;
+    background-color: #36a5f4;
+    color: white;
+    border: 0;
     border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .edit:hover {
+    background-color: #0176ca;
+  }
+
+  .check {
+    padding: 3px 3px 0px 3px;
+    border: 0;
+    margin: 5px;
+    border-radius: 28px;
     position: absolute;
     margin-left: -74%;
     cursor: pointer;
+    background-color: white;
   }
 
   .check:hover {
@@ -158,6 +180,7 @@
 
   .check.checked {
     background-color: #11da33;
+    color: white;
   }
 
   mat-paginator {

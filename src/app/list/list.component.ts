@@ -10,14 +10,13 @@ import { ListItem } from '../list-item';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  @ViewChild("listInput") listInput: ElementRef;
   @ViewChild("mainInput") mainInput: ElementRef;
-  
+  @ViewChild("listInput") listInput: ElementRef;
   
   items: ListItem[] = [];
 
-  action = new FormControl(null, Validators.required);
   description = new FormGroup({});
+  header = new FormGroup({action: new FormControl()})
   prevChecked: boolean;
   checked: boolean;
   pageEvent: PageEvent;
@@ -34,9 +33,11 @@ export class ListComponent implements OnInit {
     this.getItems();
   }
 
-  getItems(event?, cp?: number): void {
+  get action() {
+    return this.header.controls.action;
+  }
 
-    this.mainInput.nativeElement.focus();
+  getItems(event?, cp?: number): void {
 
     this.event = event || this.event;
 
@@ -60,7 +61,7 @@ export class ListComponent implements OnInit {
   }
 
   addItem(): void {
-    let value = this.action.value.trim();
+    let value = this.action.value?.trim();
     if (!value) { 
       this.action.reset();
       return; 
@@ -68,6 +69,7 @@ export class ListComponent implements OnInit {
     this.listService.addItem(value, this.description)
       .subscribe(() => {
         this.getItems(null);
+        this.mainInput.nativeElement.focus();
       });
     this.action.reset();
   }
@@ -84,10 +86,10 @@ export class ListComponent implements OnInit {
     event.stopPropagation();
   }
 
-  edit(action, event): void {
-    this.listService.edit(action, this.description)
+  edit(id: number, event): void {
+    this.listService.edit(id, this.description)
       .subscribe(() => {
-        this.getItems(null); 
+        this.getItems(null);
         this.listInput.nativeElement.focus();
       });
     event.stopPropagation();
