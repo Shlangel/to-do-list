@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
   checked: boolean;
   pageEvent: PageEvent;
   currentPage: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 4;
   length: number;
   event;
 
