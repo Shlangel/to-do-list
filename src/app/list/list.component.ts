@@ -50,6 +50,7 @@ export class ListComponent implements OnInit {
       .subscribe(response => {
         this.length = response.length;
         this.items = response.items;
+        response.items.map(item => this.description.addControl(`${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
 
         if (this.items.length < 1 && this.currentPage !== 0) {
           this.currentPage -= 1;
@@ -58,6 +59,7 @@ export class ListComponent implements OnInit {
             .subscribe(response => {
               this.length = response.length;
               this.items = response.items;
+              response.items.map(item => this.description.addControl(`${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
             })
           }}
       );
@@ -69,9 +71,9 @@ export class ListComponent implements OnInit {
       this.action.reset();
       return; 
     }
-    this.listService.addItem(value, this.description)
+    this.listService.addItem(value)
       .subscribe(() => {
-        this.getItems(null);
+        this.getItems();
         this.mainInput.nativeElement.focus();
       });
     this.action.reset();
@@ -79,7 +81,7 @@ export class ListComponent implements OnInit {
 
   removeItem(id: number, event): void {
     this.listService.removeItem(id)
-      .subscribe(() => this.getItems(null));
+      .subscribe(() => this.getItems());
       event.stopPropagation();
   }
 
@@ -92,7 +94,7 @@ export class ListComponent implements OnInit {
   edit(id: number, event): void {
     this.listService.edit(id, this.description)
       .subscribe(() => {
-        this.getItems(null);
+        this.getItems();
         this.listInput.nativeElement.focus();
       });
     event.stopPropagation();
@@ -103,7 +105,7 @@ export class ListComponent implements OnInit {
       this.prevChecked = this.checked;
       this.checked = checked;
       if (this.prevChecked !== this.checked) {
-        let cp = 0
+        let cp = 0;
         this.getItems(null, cp); 
       }
     }
