@@ -8,13 +8,23 @@ import { Validators, FormControl } from '@angular/forms';
   providedIn: 'root'
 })
 export class ListService {
-
   items: ListItem[]  = [
   ];
+  storageItems = [];
 
   getItems(checked?: boolean, limit?: number, offset?: number): Observable<any> {
+    if (this.storageItems.length !== 0) {
+      localStorage.setItem('items', JSON.stringify(this.storageItems));
+    } else if (this.storageItems.length === 0) {
+      this.items = JSON.parse(localStorage.getItem('items')) 
+    }
+ 
+    this.items = JSON.parse(localStorage.getItem('items')) || [];
+
+    console.log(this.items)
+    
     if (checked) {
-      let sortedItems = this.items.filter(item => item.checked === true)
+      let sortedItems = this.items.filter(item => item.checked === true);
       let slicedItems = sortedItems.slice(offset, offset + limit);
       return of({items: slicedItems, length: sortedItems.length});
     }
@@ -26,15 +36,16 @@ export class ListService {
     return of({items: this.items.slice(offset, offset + limit), length: this.items.length});
   }
 
-  addItem(action: string, description): Observable<ListItem> {
+  addItem(action: string, description): Observable<string> {
     const item = {
-      id: this.genId(this.items),
+      id: this.items.length + 1,
       action: action,
       checked: false
     };
-    this.items.unshift(item);
+    this.storageItems.unshift(item);
     description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
-    return of(item);
+
+    return of('ok');
   }
 
   removeItem(id: number): Observable<string> {
@@ -54,11 +65,8 @@ export class ListService {
     return of('ok');
   }
 
-  genId(items: ListItem[]): number {
-    return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
-  }
-
-  pageChanging(limit: number, offset: number, ): Observable<ListItem[]> {
+  pageChanging(limit: number, offset: number): Observable<ListItem[]> {
     return of(this.items.slice(offset, offset + limit));
   }
+
 }
