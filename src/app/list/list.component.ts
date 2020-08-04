@@ -10,8 +10,10 @@ import { ListItem } from '../list-item';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  @ViewChild("mainInput") mainInput: ElementRef;
-  @ViewChild("listInput") listInput: ElementRef;
+  @ViewChild('mainInput') mainInput: ElementRef;
+  @ViewChild('listInput') listInput: ElementRef;
+  @ViewChild('edit') editBtn: ElementRef;
+
   
   items: ListItem[] = [];
 

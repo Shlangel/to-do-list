@@ -158,16 +158,12 @@
   }
 
   .edit {
-    background-color: black;
+    background-color: #006dbb;
     padding: 9px 14px;
     color: white;
     border: 0;
     border-radius: 10px;
     cursor: pointer;
-  }
-
-  .edit:hover {
-    background-color: #0176ca;
   }
 
   .check {
