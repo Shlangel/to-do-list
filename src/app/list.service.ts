@@ -9,16 +9,14 @@ import { Validators, FormControl } from '@angular/forms';
 })
 export class ListService {
   items: ListItem[] = [];
-  storageItems = [];
 
   getItems(checked?: boolean, limit?: number, offset?: number): Observable<any> {
     
-    if (this.storageItems.length !== 0) {
-      localStorage.setItem('items', JSON.stringify(this.storageItems));
-    } else if (this.storageItems.length === 0) {
-      this.storageItems = JSON.parse(localStorage.getItem('items'));
+    if (this.items.length !== 0) {
+      localStorage.setItem('items', JSON.stringify(this.items));
+    } else if (this.items.length === 0) {
+      this.items = JSON.parse(localStorage.getItem('items'));
     }
-    console.log(this.storageItems)
     this.items = JSON.parse(localStorage.getItem('items')) || [];
     
     if (checked) {
@@ -36,18 +34,17 @@ export class ListService {
 
   addItem(action: string): Observable<string> {
     const item = {
-      id: this.items.length + 1,
+      id: Math.max(...this.items.map(i => i.id), 0) + 1,
       action: action,
       checked: false
     };
-    console.log(this.storageItems)
     this.items.unshift(item);
     return of('ok');
   }
 
   removeItem(id: number): Observable<string> {
-    console.log(this.storageItems)
-    this.storageItems = this.storageItems.filter(items => items.id !== id);
+    this.items = this.items.filter(items => items.id !== id);
+    localStorage.setItem('items', JSON.stringify(this.items));
     return of('ok');
   }
 
@@ -57,9 +54,9 @@ export class ListService {
     return of('ok');
   }
 
-  edit(id: number, description): Observable<string> {
-    let formControl = description.get(`${id}`); 
-    formControl.disabled ? formControl.enable() : formControl.disable();
+  edit(id: number, value: string): Observable<string> {
+    const target = this.items.find(item => item.id === id);
+    target.action = value;
     return of('ok');
   }
 
@@ -68,5 +65,16 @@ export class ListService {
   }
 
 }
+
+// edit(id: number, value: string, description): Observable<string> {
+//   let formControl = description.get(`${id}`); 
+//   this.items = this.items.map(i => i.action = i.action !== value ? value : i.action);
+//   console.log(this.items);
+//   formControl.disabled ? formControl.enable() : formControl.disable();
+
+//   localStorage.setItem('items', JSON.stringify(this.items));
+//   return of('ok');
+// }
+
 
 // description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));

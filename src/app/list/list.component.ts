@@ -20,7 +20,6 @@ export class ListComponent implements OnInit {
   description = new FormGroup({});
   header = new FormGroup({action: new FormControl()})
   prevChecked: boolean;
-  editable: boolean = false;
   checked: boolean;
   pageEvent: PageEvent;
   currentPage: number = 0;
@@ -92,13 +91,23 @@ export class ListComponent implements OnInit {
   }
 
   edit(id: number, event): void {
-    this.listService.edit(id, this.description)
+
+    let formControl = this.description.get(`${id}`); 
+
+    if (formControl.enabled) {
+      this.listService.edit(id, formControl.value)
       .subscribe(() => {
         this.getItems();
-        this.listInput.nativeElement.focus();
+        formControl.disable();
       });
+    } else {
+      formControl.enable();
+      event.target.parentElement.querySelector('input').focus();
+    }
+
+    
+    
     event.stopPropagation();
-    this.editable = !this.editable;
   }
 
   filter(checked): void {
