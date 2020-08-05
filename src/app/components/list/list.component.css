@@ -68,27 +68,6 @@
     color: white;
   }
   
-  .header {
-    background-color: #36a5f4;
-    margin-right: 5%;
-    margin-left: 5%;
-    padding: 30px 40px;
-    color: white;
-    text-align: center;
-    border-radius: 10px;
-  }
-  
-  .header:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-  .header input {
-    border-radius: 10px;
-    background-color: white;
-  }
-  
   input {
     margin: 0;
     border: none;
@@ -101,22 +80,6 @@
 
   form input {
     max-width: 70%;
-  }
-  
-  .addBtn {
-    margin-left: 52px;
-    padding: 10px 10px 10px 10px;
-    width: 25%;
-    background: #d9d9d9;
-    float: left;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  input.addBtn:hover {
-    background-color: #9cd6ff;
   }
 
   .sort {

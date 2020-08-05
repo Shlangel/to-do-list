@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ListItem } from '../interfaces/list-item.interface';
-import { Observable, of } from 'rxjs';
-
+import { Observable, of, BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +8,33 @@ import { Observable, of } from 'rxjs';
 export class ListService {
   items: ListItem[] = [];
 
-  getItems(checked?: boolean, limit?: number, offset?: number): Observable<any> {
-    if (this.items.length !== 0) {
+  items$ = new BehaviorSubject<any>({
+    items: this.items,
+    count: this.items.length,
+  });
+
+  filteredItemsLength: number;
+  checked = undefined;
+
+  getItemsServer(checked?: boolean, limit = 4, offset = 0): Observable<any> {
+    this.checked = checked;
+    if (this.items.length) {
       localStorage.setItem('items', JSON.stringify(this.items));
-    } else if (this.items.length === 0) {
-      this.items = JSON.parse(localStorage.getItem('items'));
+    } else {
+      this.items = JSON.parse(localStorage.getItem('items')) || [];
     }
-    this.items = JSON.parse(localStorage.getItem('items')) || [];
     if (checked) {
-      const sortedItems = this.items.filter(item => item.checked === true);
-      const slicedItems = sortedItems.slice(offset, offset + limit);
-      return of({items: slicedItems, length: sortedItems.length});
+      this.checked = checked;
+      this.filteredItemsLength = this.items.filter(item => item.checked === true).length;
+      return of(this.items.filter(item => item.checked === true).slice(offset, offset + limit));
     }
     if (checked === false) {
-      const sortedItems = this.items.filter(item => item.checked === false);
-      const slicedItems = sortedItems.slice(offset, offset + limit);
-      return of({items: slicedItems, length: sortedItems.length});
+      this.checked = checked;
+      this.filteredItemsLength = this.items.filter(item => item.checked === false).length;
+      return of(this.items.filter(item => item.checked === false).slice(offset, offset + limit));
     }
-    return of({items: this.items.slice(offset, offset + limit), length: this.items.length});
+    this.filteredItemsLength = this.items.length;
+    return of(this.items.slice(offset, offset + limit));
   }
 
   addItem(action: string): Observable<string> {
@@ -37,6 +45,14 @@ export class ListService {
     };
     this.items.unshift(item);
     return of('ok');
+  }
+
+  getItems(checked?: boolean, limit?: number, offset?: number): void {
+    this.getItemsServer(checked === null ? this.checked : checked, limit, offset)
+      .subscribe(list => this.items$.next({
+        items: list,
+        count: this.filteredItemsLength,
+      }));
   }
 
   removeItem(id: number): Observable<string> {
