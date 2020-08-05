@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ListItem } from './list-item';
 import { Observable, of } from 'rxjs';
-import { Validators, FormControl } from '@angular/forms';
 
 
 @Injectable({
@@ -65,16 +64,3 @@ export class ListService {
   }
 
 }
-
-// edit(id: number, value: string, description): Observable<string> {
-//   let formControl = description.get(`${id}`); 
-//   this.items = this.items.map(i => i.action = i.action !== value ? value : i.action);
-//   console.log(this.items);
-//   formControl.disabled ? formControl.enable() : formControl.disable();
-
-//   localStorage.setItem('items', JSON.stringify(this.items));
-//   return of('ok');
-// }
-
-
-// description.addControl(`${item.id}`, new FormControl({value: `${action}`, disabled: true}, Validators.required));
