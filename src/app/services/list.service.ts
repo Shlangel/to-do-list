@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ListItem } from './list-item';
+import { ListItem } from '../interfaces/list-item.interface';
 import { Observable, of } from 'rxjs';
 
 
@@ -10,22 +10,20 @@ export class ListService {
   items: ListItem[] = [];
 
   getItems(checked?: boolean, limit?: number, offset?: number): Observable<any> {
-    
     if (this.items.length !== 0) {
       localStorage.setItem('items', JSON.stringify(this.items));
     } else if (this.items.length === 0) {
       this.items = JSON.parse(localStorage.getItem('items'));
     }
     this.items = JSON.parse(localStorage.getItem('items')) || [];
-    
     if (checked) {
-      let sortedItems = this.items.filter(item => item.checked === true);
-      let slicedItems = sortedItems.slice(offset, offset + limit);
+      const sortedItems = this.items.filter(item => item.checked === true);
+      const slicedItems = sortedItems.slice(offset, offset + limit);
       return of({items: slicedItems, length: sortedItems.length});
     }
     if (checked === false) {
-      let sortedItems = this.items.filter(item => item.checked === false)
-      let slicedItems = sortedItems.slice(offset, offset + limit);
+      const sortedItems = this.items.filter(item => item.checked === false);
+      const slicedItems = sortedItems.slice(offset, offset + limit);
       return of({items: slicedItems, length: sortedItems.length});
     }
     return of({items: this.items.slice(offset, offset + limit), length: this.items.length});
@@ -34,7 +32,7 @@ export class ListService {
   addItem(action: string): Observable<string> {
     const item = {
       id: Math.max(...this.items.map(i => i.id), 0) + 1,
-      action: action,
+      action,
       checked: false
     };
     this.items.unshift(item);
@@ -48,7 +46,7 @@ export class ListService {
   }
 
   check(id: number): Observable<string> {
-    const item = this.items.find(item => item.id === id);
+    const item = this.items.find(i => i.id === id);
     item.checked = !item.checked;
     return of('ok');
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { ListService } from '../list.service';
-import { ListItem } from '../list-item';
+import { ListItem } from '../../interfaces/list-item.interface';
+import { ListService } from '../../services/list.service';
 
 @Component({
   selector: 'app-list',
@@ -14,22 +14,19 @@ export class ListComponent implements OnInit {
   @ViewChild('listInput') listInput: ElementRef;
   @ViewChild('edit') editBtn: ElementRef;
 
-  
   items: ListItem[] = [];
 
   description = new FormGroup({});
-  header = new FormGroup({action: new FormControl()})
+  header = new FormGroup({action: new FormControl()});
   prevChecked: boolean;
   checked: boolean;
   pageEvent: PageEvent;
-  currentPage: number = 0;
-  pageSize: number = 4;
+  currentPage = 0;
+  pageSize = 4;
   length: number;
   event;
 
-  constructor(
-    private listService: ListService,
-    ) { }
+  constructor( private listService: ListService ) { }
 
   ngOnInit(): void {
     this.getItems();
@@ -49,7 +46,8 @@ export class ListComponent implements OnInit {
       .subscribe(response => {
         this.length = response.length;
         this.items = response.items;
-        response.items.map(item => this.description.addControl(`${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
+        response.items.map(item => this.description.addControl(
+          `${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
 
         if (this.items.length < 1 && this.currentPage !== 0) {
           this.currentPage -= 1;
@@ -58,17 +56,18 @@ export class ListComponent implements OnInit {
             .subscribe(response => {
               this.length = response.length;
               this.items = response.items;
-              response.items.map(item => this.description.addControl(`${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
-            })
+              response.items.map(item => this.description.addControl(
+                `${item.id}`, new FormControl({value: `${item.action}`, disabled: true}, Validators.required)));
+            });
           }}
       );
   }
 
   addItem(): void {
-    let value = this.action.value?.trim();
-    if (!value) { 
+    const value = this.action.value?.trim();
+    if (!value) {
       this.action.reset();
-      return; 
+      return;
     }
     this.listService.addItem(value)
       .subscribe(() => {
@@ -81,10 +80,10 @@ export class ListComponent implements OnInit {
   removeItem(id: number, event): void {
     this.listService.removeItem(id)
       .subscribe(() => this.getItems());
-      event.stopPropagation();
+    event.stopPropagation();
   }
 
-  check(id: number): void {
+  check(id: number, event): void {
     this.listService.check(id)
       .subscribe();
     event.stopPropagation();
@@ -92,7 +91,7 @@ export class ListComponent implements OnInit {
 
   edit(id: number, event): void {
 
-    let formControl = this.description.get(`${id}`); 
+    const formControl = this.description.get(`${id}`);
 
     if (formControl.enabled) {
       this.listService.edit(id, formControl.value)
@@ -111,8 +110,8 @@ export class ListComponent implements OnInit {
       this.prevChecked = this.checked;
       this.checked = checked;
       if (this.prevChecked !== this.checked) {
-        let cp = 0;
-        this.getItems(null, cp); 
+        const currentPage = 0;
+        this.getItems(null, currentPage);
       }
     }
 
