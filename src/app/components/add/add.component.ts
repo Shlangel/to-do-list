@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from '../../services/list.service';
 
 @Component({
