@@ -16,7 +16,7 @@ export class ListService {
   filteredItemsLength: number;
   checked = undefined;
 
-  getItemsServer(checked?: boolean, limit = 4, offset = 0): Observable<any> {
+  public getItemsServer(checked?: boolean, limit = 4, offset = 0): Observable<any> {
     this.checked = checked;
     if (this.items.length) {
       localStorage.setItem('items', JSON.stringify(this.items));
@@ -37,7 +37,7 @@ export class ListService {
     return of(this.items.slice(offset, offset + limit));
   }
 
-  addItem(action: string): Observable<string> {
+  public addItem(action: string): Observable<string> {
     const item = {
       id: Math.max(...this.items.map(i => i.id), 0) + 1,
       action,
@@ -47,7 +47,7 @@ export class ListService {
     return of('ok');
   }
 
-  getItems(checked?: boolean, limit?: number, offset?: number): void {
+  public getItems(checked?: boolean, limit?: number, offset?: number): void {
     this.getItemsServer(checked === null ? this.checked : checked, limit, offset)
       .subscribe(list => this.items$.next({
         items: list,
@@ -55,19 +55,19 @@ export class ListService {
       }));
   }
 
-  removeItem(id: number): Observable<string> {
+  public removeItem(id: number): Observable<string> {
     this.items = this.items.filter(items => items.id !== id);
     localStorage.setItem('items', JSON.stringify(this.items));
     return of('ok');
   }
 
-  check(id: number): Observable<string> {
+  public check(id: number): Observable<string> {
     const item = this.items.find(i => i.id === id);
     item.checked = !item.checked;
     return of('ok');
   }
 
-  edit(id: number, value: string): Observable<string> {
+  public edit(id: number, value: string): Observable<string> {
     const target = this.items.find(item => item.id === id);
     target.action = value;
     return of('ok');

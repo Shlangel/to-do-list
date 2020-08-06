@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
 import { ListItem } from '../../interfaces/list-item.interface';
 import { ListService } from '../../services/list.service';
 
@@ -16,9 +15,7 @@ export class ListComponent implements OnInit {
   items: ListItem[] = [];
 
   public list = new FormGroup({});
-  private prevChecked: boolean;
   private checked: boolean;
-  private pageEvent: PageEvent;
   public currentPage = 0;
   public pageSize = 4;
   public length = 0;
@@ -59,25 +56,28 @@ export class ListComponent implements OnInit {
 
   public check(id: number, event): void {
     this.listService.check(id)
-      .subscribe();
+      .subscribe(() => this.getItems());
     event.stopPropagation();
   }
 
   public edit(id: number, event): void {
-    console.log(event);
 
     const formControl = this.list.get(`${id}`);
+    if (event.relatedTarget === document.getElementById(`${id}`)) {
+      return;
+    } else {
 
     if (formControl.enabled) {
       this.listService.edit(id, formControl.value)
         .subscribe(() => {
-          this.getItems();
           formControl.disable();
+          this.getItems();
         });
     } else {
       formControl.enable();
       event.target.parentElement.querySelector('input').focus();
     }
+  }
     event.stopPropagation();
   }
 
