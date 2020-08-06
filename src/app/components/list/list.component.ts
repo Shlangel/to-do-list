@@ -15,13 +15,13 @@ export class ListComponent implements OnInit {
 
   items: ListItem[] = [];
 
-  private list = new FormGroup({});
+  public list = new FormGroup({});
   private prevChecked: boolean;
   private checked: boolean;
   private pageEvent: PageEvent;
-  private currentPage = 0;
-  private pageSize = 4;
-  private length = 0;
+  public currentPage = 0;
+  public pageSize = 4;
+  public length = 0;
 
   constructor(private listService: ListService) { }
 
@@ -64,6 +64,7 @@ export class ListComponent implements OnInit {
   }
 
   public edit(id: number, event): void {
+    console.log(event);
 
     const formControl = this.list.get(`${id}`);
 
